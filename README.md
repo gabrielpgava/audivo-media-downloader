@@ -5,5 +5,6 @@ A simple software to download media.
 
 ## Used Libraries
 
+- [wails](https://github.com/wailsapp/wails)
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 - [gamdl](https://github.com/glomatico/gamdl)
