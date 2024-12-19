@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Container, TextField, Button, Typography, Box } from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import { Container, TextField, Button, Typography, Box, Stack } from '@mui/material';
 import { DownloadAppleMusic } from "../wailsjs/go/main/App";
 
 const AppleMusicDownloadPage: React.FC = () => {
@@ -19,34 +18,30 @@ const AppleMusicDownloadPage: React.FC = () => {
     };
 
     return (
-        <Container maxWidth="sm" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+        <Container maxWidth="sm" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: 'calc(100% - navbarpx)' }}>
             <Typography variant="h4" gutterBottom color='black'>
                 Apple Music Downloader
             </Typography>
             <Box component="form" noValidate autoComplete="off" style={{ width: '100%' }}>
-                <Grid container spacing={2}>
-                    <Grid>
-                        <TextField
-                            fullWidth
-                            label="Apple Music URL"
-                            variant="outlined"
-                            margin="normal"
-                            value={url}
-                            onChange={(e) => setUrl(e.target.value)}
-                        />
-                    </Grid>
-                    <Grid>
-                        <Button
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            onClick={handleDownload}
-                            style={{ marginTop: '16px' }}
-                        >
-                            Download
-                        </Button>
-                    </Grid>
-                </Grid>
+                <Stack>
+                    <TextField
+                        fullWidth
+                        label="Apple Music URL"
+                        variant="outlined"
+                        margin="normal"
+                        value={url}
+                        onChange={(e) => setUrl(e.target.value)}
+                    />
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        onClick={handleDownload}
+                        style={{ marginTop: '16px' }}
+                    >
+                        Download
+                    </Button>
+                </Stack>
             </Box>
         </Container>
     );
