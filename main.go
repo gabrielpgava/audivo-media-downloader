@@ -18,12 +18,11 @@ func main() {
 	// Create application with options
 	err := wails.Run(&options.App{
 		Title:  "Audivo Media Downloader",
-		Width:  800, // Ajuste a largura conforme necessário
-		Height: 600,  // Ajuste a altura conforme necessário
+		Width:  800,
+		Height: 600, 
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
-		BackgroundColour: &options.RGBA{R: 211, G: 211, B: 211, A: 1}, // Light gray color
 		OnStartup:        app.startup,
 		Bind: []interface{}{
 			app,
