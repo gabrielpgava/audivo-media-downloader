@@ -1,6 +1,9 @@
 # audivo-media-downloader
-A simple software to download media
+A simple software to download media.
 
-STILL UNDER DEVELOPMENT, DOWNLOAD DOES NOT WORK YET
+**Note:** This project is still under development. Download functionality is not available yet.
 
+## Used Libraries
 
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+- [gamdl](https://github.com/glomatico/gamdl)
