@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 )
 
 // App struct
@@ -20,11 +19,3 @@ func NewApp() *App {
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 }
-
-func (a *App) DownloadYoutube(url string, format string, quality string) {
-	fmt.Println("Downloading media from", url, format,quality)
-}
-func (a *App) DownloadAppleMusic(url string, format string, quality string) {
-	fmt.Println("Downloading media from", url, format,quality)
-}
-

@@ -1,8 +1,9 @@
 # audivo-media-downloader
 A simple software to download media.
 
-**Note:** This project is still under development. Download functionality is not available yet.
+**Note:** This project is currently under development. The download functionality is not yet fully operational.
 
+**Note:** The project requires `gamdl` and `yt-dlp` to be installed on your computer and working in the terminal. They are not yet included in the source.
 
 # Prerequisites
 
@@ -26,3 +27,4 @@ A simple software to download media.
 - [wails](https://github.com/wailsapp/wails)
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 - [gamdl](https://github.com/glomatico/gamdl)
+- [FFmpeg](https://github.com/FFmpeg/FFmpeg)

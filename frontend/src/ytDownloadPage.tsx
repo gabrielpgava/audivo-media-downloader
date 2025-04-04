@@ -1,22 +1,41 @@
-import React, { useState } from 'react';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 import { Container, TextField, MenuItem, Button, Typography, Box, Stack } from '@mui/material';
 import { DownloadYoutube } from "../wailsjs/go/main/App";
+import { EventsEmit, EventsOn } from '../wailsjs/runtime';
 
 const YTDownloadPage: React.FC = () => {
     const [url, setUrl] = useState('');
     const [format, setFormat] = useState('video');
-    const [quality, setQuality] = useState('360p');
+    const [quality, setQuality] = useState('best');
+    const [log, setLog] = useState('');
+    const [isDownloading, setIsDownloading] = useState(false);
 
     const handleDownload = () => {
-        // Implement download logic here
-        console.log(`URL: ${url}, Format: ${format}, Quality: ${quality}`);
-
-        DownloadYoutube(url, format, quality).then((result) => {
-            console.log(result);
-        }).catch((error) => {
-            console.error(error);
+        setIsDownloading(true);
+        setLog('Starting download...\n');
+        DownloadYoutube(url, format, quality).then(
+            () => {
+                setLog((prevLog) => `${prevLog}Download completed\n`);
+                setIsDownloading(false);
+            }
+        ).catch((error) => {
+            setLog((prevLog) => `${prevLog}Error: ${error.message}\n`);
+            setIsDownloading(false);
         });
     };
+
+    useEffect(() => {
+        // Listen for download progress events
+        EventsOn("download-progress", (message: string) => {
+            setLog((prevLog) => `${prevLog}${message}`);
+        });
+
+        // Cleanup event listener on component unmount
+        return () => {
+            EventsOn("download-progress", () => { }); // Unsubscribe
+        };
+    }, []);
 
     return (
         <Container maxWidth="sm" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: 'calc(100% - navbarpx)' }}>
@@ -55,22 +74,58 @@ const YTDownloadPage: React.FC = () => {
                             value={quality}
                             onChange={(e) => setQuality(e.target.value)}
                         >
-                            <MenuItem value="360p">360p</MenuItem>
-                            <MenuItem value="480p">480p</MenuItem>
-                            <MenuItem value="720p">720p</MenuItem>
-                            <MenuItem value="1080p">1080p</MenuItem>
-                            <MenuItem value="4k">4k</MenuItem>
+                            <MenuItem value="best">BEST</MenuItem>
+                            <MenuItem value="360">360p</MenuItem>
+                            <MenuItem value="480">480p</MenuItem>
+                            <MenuItem value="720">720p</MenuItem>
+                            <MenuItem value="1080">1080p</MenuItem>
+                            <MenuItem value="2160">4k</MenuItem>
                         </TextField>
                     )}
-                    <Button
+                    {isDownloading ? (
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => {
+                                setIsDownloading(false);
+                                EventsEmit("cancel-download", () => { });
+                            }}
+                            style={{ marginTop: '16px' }}
+                        >
+                            Cancel
+                        </Button>
+                    ) : (
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            onClick={handleDownload}
+                            style={{ marginTop: '16px' }}
+                            disabled={isDownloading}
+                        >
+                            Download
+                        </Button>
+                    )}
+
+                    <TextField
                         fullWidth
-                        variant="contained"
-                        color="primary"
-                        onClick={handleDownload}
-                        style={{ marginTop: '16px' }}
-                    >
-                        Download
-                    </Button>
+                        label="Console"
+                        variant="outlined"
+                        margin="normal"
+                        multiline
+                        rows={10}
+                        value={log}
+                        InputProps={{
+                            readOnly: true,
+                        }}
+                        style={{ marginTop: '16px', backgroundColor: '#f5f5f5' }}
+                        inputRef={(input) => {
+                            if (input) {
+                                input.scrollTop = input.scrollHeight;
+                            }
+                        }}
+                    />
                 </Stack>
             </Box>
         </Container >
