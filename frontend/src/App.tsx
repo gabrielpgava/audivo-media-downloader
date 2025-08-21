@@ -29,7 +29,7 @@ const App: React.FC = () => {
             <AppBar position="static">
                 <Toolbar>
                     <Button color="inherit" onClick={() => setPage('youtube')}>YouTube</Button>
-                    <Button color="inherit" onClick={() => setPage('appleMusic')}>Apple Music</Button>
+                    {/*<Button color="inherit" onClick={() => setPage('appleMusic')}>Apple Music</Button>*/}
                 </Toolbar>
             </AppBar>
             <Container>
