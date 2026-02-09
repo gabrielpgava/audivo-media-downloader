@@ -1,11 +1,12 @@
-package main
+package AppleMusicDownloader
 
 import (
+	"context"
 	"fmt"
 	"os/exec"
 )
 
-func (a *App) DownloadAppleMusic(url, format, quality string) {
+func DownloadAppleMusic(ctx context.Context, url, format, quality string) {
 	fmt.Println("Downloading media from", url, format, quality)
 
 	args := []string{"-o", "~/Downloads/%(title)s.%(ext)s"}

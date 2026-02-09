@@ -1,4 +1,4 @@
-package main
+package YoutubeDownloader
 
 import (
 	"audivo-media-downloader/tools"
@@ -9,19 +9,19 @@ import (
 	wailsruntime "github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
-func (a *App) DownloadYoutube(url, format, quality string) {
+func DownloadYoutube(ctx context.Context, url, format, quality string) {
 
     
     dependencyPaths, err := tools.DependencyDownloader()
         if err != nil {
-            wailsruntime.EventsEmit(a.ctx, "download-progress", "Error downloading yt-dlp: "+err.Error())
+            wailsruntime.EventsEmit(ctx, "download-progress", "Error downloading yt-dlp: "+err.Error())
             return
         }
         
     ytDlpPath := dependencyPaths.YtDlpPath
 
     if err := os.Chmod(ytDlpPath, 0755); err != nil {
-        wailsruntime.EventsEmit(a.ctx, "download-progress", "Error setting permissions: "+err.Error())
+        wailsruntime.EventsEmit(ctx, "download-progress", "Error setting permissions: "+err.Error())
         return
     }
 
@@ -42,25 +42,25 @@ func (a *App) DownloadYoutube(url, format, quality string) {
 
     args = append(args, url)
 
-	ctx, cancel := context.WithCancel(a.ctx)
+	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
 	go func(){
-		wailsruntime.EventsOn(a.ctx, "cancel-download", func(optionalData ...interface{}) {
+		wailsruntime.EventsOn(ctx, "cancel-download", func(optionalData ...interface{}) {
             cancel()
-            wailsruntime.EventsEmit(a.ctx, "download-progress", "Download cancelled by user")
+            wailsruntime.EventsEmit(ctx, "download-progress", "Download cancelled by user")
         })
 	}()
 
     cmd := exec.CommandContext(ctx, ytDlpPath, args...)
     stdoutPipe, err := cmd.StdoutPipe()
     if err != nil {
-        wailsruntime.EventsEmit(a.ctx, "download-progress", "Error getting stdout: "+err.Error())
+        wailsruntime.EventsEmit(ctx, "download-progress", "Error getting stdout: "+err.Error())
         return
     }
 
     if err := cmd.Start(); err != nil {
-        wailsruntime.EventsEmit(a.ctx, "download-progress", "Error starting the command: "+err.Error())
+        wailsruntime.EventsEmit(ctx, "download-progress", "Error starting the command: "+err.Error())
         return
     }
 
@@ -70,7 +70,7 @@ func (a *App) DownloadYoutube(url, format, quality string) {
             n, err := stdoutPipe.Read(buf)
             if n > 0 {
                 output := string(buf[:n])
-                wailsruntime.EventsEmit(a.ctx, "download-progress", output)
+                wailsruntime.EventsEmit(ctx, "download-progress", output)
             }
             if err != nil {
                 break
@@ -79,7 +79,7 @@ func (a *App) DownloadYoutube(url, format, quality string) {
     }()
 
     if err := cmd.Wait(); err != nil {
-        wailsruntime.EventsEmit(a.ctx, "download-progress", "Error: "+err.Error())
+        wailsruntime.EventsEmit(ctx, "download-progress", "Error: "+err.Error())
         return
     }
 }

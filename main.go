@@ -1,6 +1,9 @@
 package main
 
 import (
+	"audivo-media-downloader/internal/AppleMusicDownloader"
+	"audivo-media-downloader/internal/YoutubeDownloader"
+	"context"
 	"embed"
 
 	"github.com/wailsapp/wails/v2"
@@ -32,4 +35,12 @@ func main() {
 	if err != nil {
 		println("Error:", err.Error())
 	}
+}
+
+func DownloadAppleMusic(ctx context.Context, url, format, quality string) {
+	AppleMusicDownloader.DownloadAppleMusic(ctx, url, format, quality)
+}
+
+func DownloadYoutube(ctx context.Context, url, format, quality string) {
+	YoutubeDownloader.DownloadYoutube(ctx, url, format, quality)
 }
