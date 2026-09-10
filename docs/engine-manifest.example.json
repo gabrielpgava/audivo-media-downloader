@@ -1,0 +1,13 @@
+{
+  "artifacts": [
+    {
+      "name": "yt-dlp",
+      "version": "2026.06.09",
+      "os": "darwin",
+      "arch": "arm64",
+      "url": "https://github.com/yt-dlp/yt-dlp/releases/download/2026.06.09/yt-dlp",
+      "sha256": "replace-with-the-release-sha256",
+      "executable": "yt-dlp"
+    }
+  ]
+}

@@ -17,13 +17,16 @@ func main() {
 
 	// Create application with options
 	err := wails.Run(&options.App{
-		Title:  "Audivo Media Downloader",
-		Width:  800,
-		Height: 600, 
+		Title:     "Audivo Media Downloader",
+		Width:     900,
+		Height:    680,
+		MinWidth:  720,
+		MinHeight: 560,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
-		OnStartup:        app.startup,
+		OnStartup:  app.startup,
+		OnShutdown: app.shutdown,
 		Bind: []interface{}{
 			app,
 		},

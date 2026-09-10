@@ -1,3 +1,36 @@
 build/bin
 node_modules
 frontend/dist
+frontend/.vite
+*.tsbuildinfo
+
+# Application-managed engines and runtime state
+.audivo/
+engines/
+downloads/
+logs/
+cache/
+config/
+cookies.txt
+*.cookies
+*.log
+
+# Graphify knowledge graph outputs
+graphify-out/
+.graphify_*
+
+# Go / Test artifacts
+coverage.out
+coverage.html
+*.test
+
+# Local environment and editor files
+.env
+.env.*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
